@@ -1,0 +1,7 @@
+*env
+*words.txt
+*settings.py
+*manage.py
+*__*
+*.pyc
+
