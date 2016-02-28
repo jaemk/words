@@ -4,4 +4,5 @@
 *manage.py
 *__*
 *.pyc
-
+*.swp*
+*.swo*
