@@ -8,7 +8,7 @@ import json
 
 def main(request):
     ''' render main page '''
-    return httpresp('main view')
+    return render(request, 'hangman/main.html')
 
 
 def get_word(request):
