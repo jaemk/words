@@ -1,16 +1,19 @@
 from django.shortcuts import render
+from django.http import HttpResponse as httpresp
 
 from hangman.models import Word
 
-from django.shortcuts import render
-from django.http import HttpResponse as httpresp
+import json
 
 
 def main(request):
+    ''' render main page '''
     return httpresp('main view')
 
 
 def get_word(request):
-    return httpresp('new word')
-
+    ''' get a random word for ajax requests '''
+    word = Word.random.all()
+    data = {'word': word.text}
+    return httpresp(json.dumps(data), content_type='application/json')
 
