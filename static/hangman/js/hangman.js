@@ -162,11 +162,11 @@ $(document).ready(function() {
 
     $('#reset_button').click(function() {
         location.reload(true);
-        $('#user_in').focus();
     });
 
     $('#hint').click(function() {
         getDef(false);
+        $('#user_in').focus();
     });
 });
 
