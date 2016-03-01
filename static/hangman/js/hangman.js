@@ -2,8 +2,45 @@ $(document).ready(function() {
     var results; // object holding state of each letter
     var guesses; // object holding each letter guessed
     var word;    // word to guess
+    var def_word;// word object for getting hints
     var count;   // number of incorrect guesses so far
     var MaxGuesses = 7; // max number of incorrect guesses
+
+
+    function getDef(query) {
+        if (query == false) {
+            wordText = word;
+        }
+        else {
+            wordText = query;
+        }
+
+        $.ajax({
+            url: 'http://jameskominick.com:8080/words/hangman/definition/'+wordText+'/',
+            dataType: 'json',
+        }).done(function(data) {
+            //alert(query+': '+data['definition']);
+            showDef(data);
+        });
+    }
+
+    function showDef(data) {
+        def = data['definition'];
+        if (def == null && def_word.substr(-1) === 's') {
+            def_word = def_word.slice(0, -1);
+            getDef(def_word);
+        }
+        else {
+            if (def == null){
+                $('#help').empty();
+                $('#help').text('Sorry, no hint found...');
+            }
+            else {
+                $('#help').empty();
+                $('#help').text(def);
+            }
+        }
+    }
 
     function updateBoard(letter) {
         // update the board with correct letters guessed
@@ -86,6 +123,7 @@ $(document).ready(function() {
     function setBoard(data) {
         // 
         word = data['word'];
+        def_word = data['word'];
 
         results = {};
         guesses = {};
@@ -124,6 +162,11 @@ $(document).ready(function() {
 
     $('#reset_button').click(function() {
         location.reload(true);
+        $('#user_in').focus();
+    });
+
+    $('#hint').click(function() {
+        getDef(false);
     });
 });
 
