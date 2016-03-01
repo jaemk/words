@@ -3,11 +3,25 @@ from __future__ import print_function
 import io
 
 import os
+import json
 from hangman.models import Word
 
 WORD_FILE = 'words.txt'
+DICTIONARY_FILE = 'dictionary.json'
+
 LOC = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
-print(LOC)
+
+
+def add_defs():
+    with io.open(os.path.join(LOC, DICTIONARY_FILE), 'r') as f:
+        info = json.load(f)
+    for word in Word.objects.all():
+        word_text = word.text.upper()
+        if word_text in info:
+            word_def = info[word_text].split('.')[0].encode('utf8')[:499]
+            word.definition = word_def
+            word.save()
+            print('{}: {}'.format(word_text, word_def))
 
 
 def add_words():
