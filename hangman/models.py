@@ -13,6 +13,7 @@ class RandomWordManager(models.Manager):
 
 class Word(models.Model):
     text = models.CharField(max_length=500)
+    definition = models.CharField(max_length=500, null=True)
 
     objects = models.Manager()
     random = RandomWordManager()
