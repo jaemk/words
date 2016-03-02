@@ -145,16 +145,22 @@ $(document).ready(function() {
         letter = $.trim(user_in).toLowerCase();
         if (letter.length && !(letter[0] in guesses)) {
             regex  = new RegExp(letter[0]);
+            is_in = false;
             if (word.match(regex)) {
                 updateBoard(letter[0]);
+                is_in = true;
             }
             else {
                 count = count - 1;
                 updateCount();
             }
 
-            
-            $('#guesses').append('<li>'+letter[0]+'</li>');
+            if (is_in == true) {
+                $('#guesses').append('<li>'+letter[0]+' <small><span class="glyphicon glyphicon-ok"></span></small></li>');
+            }
+            else {
+                $('#guesses').append('<li>'+letter[0]+' <small><span class="glyphicon glyphicon-remove"></span></small></li>');
+            }
             guesses[letter[0]] = letter[0];
             checkStatus();
         }
